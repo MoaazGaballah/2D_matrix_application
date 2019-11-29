@@ -1,0 +1,1 @@
+int *createMatrixWithRange(int row, int column, int range);
