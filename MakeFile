@@ -1,0 +1,15 @@
+#-*-MakeFile -*-
+CC = gcc
+CFLAGS = -c -wall
+
+all: prog matrix
+
+
+prog: main.c
+	$(CC) main.c -o prog
+
+matrix: matrixOps.c
+	$(CC) matrixOps.c -o matrixOps
+
+clean:
+	rm -rf *o all

@@ -1,9 +1,15 @@
+/** 
+ * * @file Proje1 
+ * * @description this is a matrix operation, application. 
+ * * @assignment 1. 
+ * * @date 28-11-2019 
+ * * @author Moaaz Ahmed / moaaz.ahmed@stu.fsm.edu.tr */ 
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include "matrixOps.h"
 
-void clear()
+    void clear()
 {
     const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
     write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 10);
@@ -43,7 +49,7 @@ int isNumber(char *str)
 
 int main(int argc, char *argv[])
 {
-    
+
     int countinue = 1;
     char *runApplication = "1";
     char *createMatrix = "2";
@@ -85,7 +91,7 @@ int main(int argc, char *argv[])
         char s[1] = " ";
         char *exitToken, *runApplicationToken, *createMatrixToken, *directionToken, *stepNumberToken;
 
-        // get the first token 
+        // get the first token
         exitToken = strtok(exitTokenLine, s);
         runApplicationToken = exitToken;
         createMatrixToken = exitToken;
@@ -352,6 +358,6 @@ int main(int argc, char *argv[])
     }
     // free matrix allocation
     free(matrix);
-    
-//    printf("This is generateRandomNumber : %d\n", generateRandomNumber(0, 9));
+
+    //    printf("This is generateRandomNumber : %d\n", generateRandomNumber(0, 9));
 }
