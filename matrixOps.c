@@ -33,12 +33,12 @@ int *createMatrixWithRange(int row, int column, int range)
         for (int j = 0; j < column; j++)
             *(arr + i * column + j) = generateRandomNumber(0, range);
 
-    for (int i = 0; i < row; i++)
-    {
-        for (int j = 0; j < column; j++)
-            printf("%d\t", *(arr + i * column + j));
-        printf("\n");
-    }
+    // for (int i = 0; i < row; i++)
+    // {
+    //     for (int j = 0; j < column; j++)
+    //         printf("%d\t", *(arr + i * column + j));
+    //     printf("\n");
+    // }
     return arr;
 }
 
@@ -65,7 +65,7 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
     // printf("this is leftDownTemp : %d\n", leftDownTemp);
     // printf("this is rightUptemp : %d\n", rightUptemp);
     // printf("this is rightDownTemp : %d\n", rightDownTemp);
-
+    
     if (direction == 1)
     {
         // get the first element in temp to rotate it in the left column
@@ -100,7 +100,7 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
         *(matrix + (row - 1) * column) = *(matrix + (row - 2) * column);
         */
 
-        // rotate left column (column - 1 because the last element in the kolumn is rotated with the down row)
+        // rotate left column (row - 1 because the last element in the kolumn is rotated with the down row)
         char *leftColumnTempValues = malloc(sizeof(char) * row);
         for (int j = 0; j < row; j++)
             *(leftColumnTempValues + j) = *(matrix + column * j);
@@ -113,15 +113,48 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
         // rotate right column
         for (int j = 0; j < row - 1; j++)
             *(matrix + column * j + column - 1) = *(rightColumnTempValues + j + 1);
-    }
+    } 
+    
 
     if (direction == -1)
     {
+        // copy up line
+        char *upLineTempValues = malloc(sizeof(char) * column);
+        for (int j = 0; j < column; j++)
+            *(upLineTempValues + j) = *(matrix + j);
+            // printf("%d\t", *(matrix + j));
         
+        // copy right column
+        char *rightColumneTempValues = malloc(sizeof(char) * column);
+        for (int j = 0; j < row; j++)
+            *(rightColumneTempValues + j) = *(matrix + column * j + column - 1);
+            // printf("%d\t", *(matrix + column * j + column - 1));
+
+        // copy left column
+        char *leftColumnTempValues = malloc(sizeof(char) * column);
+        for (int j = 0; j < row; j++)
+            *(leftColumnTempValues + j) = *(matrix + column * j);
+            // printf("%d\t", *(matrix + column * j));
+
+        // rotate up line
+        for (int j = 0; j < column; j++)
+            *(matrix + j) = *(upLineTempValues + j - 1);
+
+        // rotate down line
+        for (int j = 0; j < column; j++)
+            *(matrix + (row - 1) * column + j) = *(matrix + (row - 1) * column + j + 1);
+        
+        // rotate right column
+        for (int j = 1; j < row; j++)
+            *(matrix + column * j + column - 1) = *(rightColumneTempValues + j - 1);
+        
+        // rotate left column
+        for (int j = 0; j < row - 1; j++)
+            *(matrix + column * j) = *(leftColumnTempValues + j + 1);
     }
 
-    printf("\n");
-    printf("---------------------------------------------------------------------\n");
+    // printf("\n");
+    // printf("-------------------------------------------------------------------------\n");
     // else
     // {
     //     for (int i = 0; i < row; i++)
@@ -130,10 +163,11 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
     // }
 
     // end of rotation
-    for (int i = 0; i < row; i++)
-    {
-        for (int j = 0; j < column; j++)
-            printf("%d\t", *(matrix + i * column + j));
-        printf("\n");
-    }
+    // for (int i = 0; i < row; i++)
+    // {
+    //     for (int j = 0; j < column; j++)
+    //         printf("%d\t", *(matrix + i * column + j));
+    //     printf("\n");
+    // }
+    return matrix;
 }
