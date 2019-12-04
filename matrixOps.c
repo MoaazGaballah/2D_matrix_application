@@ -44,6 +44,15 @@ int *createMatrixWithRange(int row, int column, int range)
 
 int *rotateMatrix(int *matrix, int row, int column, int direction)
 {
+    if (row == 1)
+    {
+        return matrix;
+    }
+    else if (column == 1)
+    {
+        return matrix;
+    }
+
     int leftUpTemp = *(matrix);                        // correct (0)
     int leftDownTemp = *(matrix + (row - 1) * column); // correct (90)
     // printf("%d\n",(row - 1) * column  );
@@ -62,8 +71,14 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
         // get the first element in temp to rotate it in the left column
         int firstElementColumn = *matrix;
 
+        // copy the right column from original matrix
+        char *rightColumnTempValues = malloc(sizeof(char) * row);
+        for (int j = 0; j < row; j++)
+            *(rightColumnTempValues + j) = *(matrix + column * j + column - 1);
+        // printf("%d \t", *(matrix + column * j + column - 1));
+
         // rotate up line
-        for (int j = 0; j < column; j++)
+        for (int j = 0; j < column - 1; j++)
             *(matrix + j) = *(matrix + j + 1);
 
         /*
@@ -87,19 +102,24 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
 
         // rotate left column (column - 1 because the last element in the kolumn is rotated with the down row)
         char *leftColumnTempValues = malloc(sizeof(char) * row);
-        for (int j = 0; j < column; j++)
+        for (int j = 0; j < row; j++)
             *(leftColumnTempValues + j) = *(matrix + column * j);
         // rotation for the first element in the column
         *(leftColumnTempValues) = firstElementColumn;
-        for (int j = 0 ; j < column - 1; j++)
+        for (int j = 0; j < row - 1; j++)
             *(matrix + column * j + column) = *(leftColumnTempValues + j);
-            // printf("%d\t", *(leftColumnTempValues + j));
+        // printf("%d\t", *(leftColumnTempValues + j));
+
         // rotate right column
-        char *rightColumnTempValues = malloc(sizeof(char) * row);
-        for (int j = 0; j < column; j++)
-            // *(rightColumnTempValues + j) = *(matrix + column * j);
-            printf("%d \t", *(matrix + (column - 1)) * j + j));
+        for (int j = 0; j < row - 1; j++)
+            *(matrix + column * j + column - 1) = *(rightColumnTempValues + j + 1);
     }
+
+    if (direction == -1)
+    {
+        
+    }
+
     printf("\n");
     printf("---------------------------------------------------------------------\n");
     // else
@@ -117,78 +137,3 @@ int *rotateMatrix(int *matrix, int row, int column, int direction)
         printf("\n");
     }
 }
-
-// void rotatematrix(int m, int n, int mat[R][C])
-// {
-//     int row = 0, col = 0;
-//     int prev, curr;
-
-//     /*
-//        row - Staring row index
-//        m - ending row index
-//        col - starting column index
-//        n - ending column index
-//        i - iterator
-//     */
-//     while (row < m && col < n)
-//     {
-
-//         if (row + 1 == m || col + 1 == n)
-//             break;
-
-//         // Store the first element of next row, this
-//         // element will replace first element of current
-//         // row
-//         prev = mat[row + 1][col];
-
-//         /* Move elements of first row from the remaining rows */
-//         for (int i = col; i < n; i++)
-//         {
-//             curr = mat[row][i];
-//             mat[row][i] = prev;
-//             prev = curr;
-//         }
-//         row++;
-
-//         /* Move elements of last column from the remaining columns */
-//         for (int i = row; i < m; i++)
-//         {
-//             curr = mat[i][n - 1];
-//             mat[i][n - 1] = prev;
-//             prev = curr;
-//         }
-//         n--;
-
-//         /* Move elements of last row from the remaining rows */
-//         if (row < m)
-//         {
-//             for (int i = n - 1; i >= col; i--)
-//             {
-//                 curr = mat[m - 1][i];
-//                 mat[m - 1][i] = prev;
-//                 prev = curr;
-//             }
-//         }
-//         m--;
-
-//         /* Move elements of first column from the remaining rows */
-//         if (col < n)
-//         {
-//             for (int i = m - 1; i >= row; i--)
-//             {
-//                 curr = mat[i][col];
-//                 mat[i][col] = prev;
-//                 prev = curr;
-//             }
-//         }
-//         col++;
-//     }
-
-//     // Print rotated matrix
-//     for (int i = 0; i < R; i++)
-//     {
-//         for (int j = 0; j < C; j++)
-//             printf("%d\t", mat[i][j]);
-//         printf("\n");
-//     }
-// }
