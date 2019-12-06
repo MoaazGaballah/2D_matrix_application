@@ -76,25 +76,25 @@ int main(int argc, char *argv[])
     // this is the matrix remained from recent steps
     int *matrix = malloc(sizeof(int) * 500);
 
-    while (countinue)
+    while (countinue == 1)
     {
         // get a main line from user
         char *exitTokenLine = getLineFromUser();
 
         // copy that line again because strtok() affect string
-        char *runApplicationTokenLine = malloc(sizeof(char) * 10);
+        char *runApplicationTokenLine = malloc(sizeof(char) * 100);
         memcpy(runApplicationTokenLine, exitTokenLine, strlen(exitTokenLine));
 
         // copy that line again because strtok() affect string
-        char *createMatrixTokenLine = malloc(sizeof(char) * 10);
+        char *createMatrixTokenLine = malloc(sizeof(char) * 100);
         memcpy(createMatrixTokenLine, exitTokenLine, strlen(exitTokenLine));
 
         // copy that line again because strtok() affect string
-        char *directionTokenLine = malloc(sizeof(char) * 10);
+        char *directionTokenLine = malloc(sizeof(char) * 100);
         memcpy(directionTokenLine, exitTokenLine, strlen(exitTokenLine));
 
         // copy that line again because strtok() affect string
-        char *stepNumberTokenLine = malloc(sizeof(char) * 10);
+        char *stepNumberTokenLine = malloc(sizeof(char) * 100);
         memcpy(stepNumberTokenLine, exitTokenLine, strlen(exitTokenLine));
 
         char s[1] = " ";
@@ -111,16 +111,7 @@ int main(int argc, char *argv[])
         {
             // printf("geldi : %s\n", token);
             countinue = 0;
-
-            // free all memory malloc
-            // matrix will be freed at just exit step
-            free(matrix);
-            free(exitTokenLine);
-            free(runApplicationTokenLine);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
-            break;
+            goto freeMem;
         }
         else if (strcasecmp(runApplicationToken, runApplication) == 0 || strcasecmp(runApplicationToken, runApplication) == 10)
         {
@@ -138,7 +129,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild row number !\n");
                 printf("Try again !\n");
-                goto runAppErr;
+
+                free(inputForRunApplication);
+                goto freeMem;
             }
 
             row = atoi(rowAsString);
@@ -152,7 +145,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild column number !\n");
                 printf("Try again !\n");
-                goto runAppErr;
+
+                free(inputForRunApplication);
+                goto freeMem;
             }
             column = atoi(columnAsString);
             // printf("This is column : %d\n", column);
@@ -168,7 +163,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild direction (clockwise : -1 or counter-clockwise : 1)\n");
                 printf("Try again !\n");
-                goto runAppErr;
+
+                free(inputForRunApplication);
+                goto freeMem;
             }
 
             direct = atoi(directionAsString);
@@ -183,7 +180,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild range number !\n");
                 printf("Try again !\n");
-                goto runAppErr;
+
+                free(inputForRunApplication);
+                goto freeMem;
             }
             range = atoi(rangeAsString);
             // printf("This is range : %d\n", range);
@@ -199,7 +198,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild step number !\n");
                 printf("Try again !\n");
-                goto runAppErr;
+
+                free(inputForRunApplication);
+                goto freeMem;
             }
             step = atoi(stepNumberAsString);
             // printf("This is step : %d\n", step);
@@ -218,15 +219,8 @@ int main(int argc, char *argv[])
             printf("then rotated %d time/s, and currentely looks like this :\n", step);
             printMatrix(matrix, row, column);
 
-        runAppErr:
-            // free all memory malloc
-            free(exitTokenLine);
-            free(runApplicationTokenLine);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
             free(inputForRunApplication);
-            continue;
+            goto freeMem;
         }
         else if (strcasecmp(createMatrixToken, createMatrix) == 0 || strcasecmp(createMatrixToken, createMatrix) == 10)
         {
@@ -244,7 +238,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild row number !\n");
                 printf("Try again !\n");
-                goto createMatErr;
+
+                free(inputForCreateMatrix);
+                goto freeMem;
             }
 
             row = atoi(rowAsString);
@@ -258,7 +254,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild column number !\n");
                 printf("Try again !\n");
-                goto createMatErr;
+
+                free(inputForCreateMatrix);
+                goto freeMem;
             }
             column = atoi(columnAsString);
             // printf("This is column : %d\n", column);
@@ -274,7 +272,9 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild range number !\n");
                 printf("Try again !\n");
-                goto createMatErr;
+
+                free(inputForCreateMatrix);
+                goto freeMem;
             }
             range = atoi(rangeAsString);
             // printf("This is range : %d\n", range);
@@ -285,23 +285,16 @@ int main(int argc, char *argv[])
             // print matrix
             printMatrix(matrix, row, column);
 
-        createMatErr:
-            // free all memory malloc
-            free(exitTokenLine);
-            free(runApplicationToken);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
             free(inputForCreateMatrix);
-            continue;
+            goto freeMem;
         }
         else if (strcasecmp(directionToken, direction) == 0 || strcasecmp(directionToken, direction) == 10)
         {
-            printf("(clockwise : -1 or counter-clockwise : 1)\n");
-            printf("Please enter a direction : ");
+            // printf("(clockwise : -1 or counter-clockwise : 1)\n");
+            // printf("Please enter a direction : ");
 
             char *inputForDirection = inputMethod();
-            // printf("this is strlen(inputForDirection) : %d\n", strlen(inputForDirection));
+            // printf("this is inputForDirection : %s\n", inputForDirection);
 
             // split user's input line according to this space
             char space[2] = " ";
@@ -311,7 +304,7 @@ int main(int argc, char *argv[])
 
             // this instruction set the last element in rangeAsString to NULL (0)
             directionAsString[strlen(directionAsString) - 1] = 0;
-            // printf("this is strlen(directionAsString) : %d\n", strlen(directionAsString));
+            // printf("this is directionAsString : %s\n", directionAsString);
 
             // printf("this is isNumber(directionAsString) : %d\n", isNumber(directionAsString));
             if (strcasecmp(directionAsString, "1") != 0 && strcasecmp(directionAsString, "-1") != 0)
@@ -319,33 +312,31 @@ int main(int argc, char *argv[])
                 clear();
                 printf("Please enter a vaild direction (clockwise : -1 or counter-clockwise : 1)\n");
                 printf("Try again !\n");
-                goto directionErr;
+
+                free(inputForDirection);
+                goto freeMem;
             }
 
             // new direction assignment
             direct = atoi(directionAsString);
+            // printf("This is directionAsString : %s\n", directionAsString);
             // printf("This is direct : %d\n", direct);
             // printf("This is row : %d\n", row);
+            // printf("This is column : %d\n", column);
             // printf("This is step : %d\n", step);
             // printf("This is matrix\n");
             // printMatrix(matrix, row, column);
-
+            // /*
             for (int i = 0; i < step; i++)
             {
                 matrix = rotateMatrix(matrix, row, column, direct);
             }
-            printf("Matrix after direction looks like :\n");
+            printf("Matrix after rotation in %d direction looks like :\n", direct);
             printMatrix(matrix, row, column);
+            // */
 
-        directionErr:
-            // free all memory malloc
-            free(exitTokenLine);
-            free(runApplicationToken);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
             free(inputForDirection);
-            continue;
+            goto freeMem;
         }
         else if (strcasecmp(stepNumberToken, stepNumber) == 0 || strcasecmp(stepNumberToken, stepNumber) == 10)
         {
@@ -362,14 +353,13 @@ int main(int argc, char *argv[])
             stepNumberAsString[strlen(stepNumberAsString) - 1] = 0;
             // printf("this is strlen(directionAsString) : %d\n", strlen(directionAsString));
 
-            // this instruction set the last element in rangeAsString to NULL (0)
-            stepNumberAsString[strlen(stepNumberAsString) - 1] = 0;
             if (isNumber(stepNumberAsString) == 0)
             {
                 clear();
-                printf("Please enter a vaild direction (clockwise : -1 and counter-clockwise : 1)\n");
-                printf("Try again !\n");
-                goto stepNumberer;
+                printf("Please enter a vaild step number\n");
+
+                free(inputForStepNumber);
+                goto freeMem;
             }
 
             step = atoi(stepNumberAsString);
@@ -379,29 +369,24 @@ int main(int argc, char *argv[])
             {
                 rotateMatrix(matrix, row, column, direct);
             }
-            printf("Matrix after direction looks like :\n");
+            printf("Matrix after being rotated %d times looks like :\n", step);
             printMatrix(matrix, row, column);
 
-        stepNumberer:
-            // free all memory malloc
-            free(exitTokenLine);
-            free(runApplicationToken);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
             free(inputForStepNumber);
-            continue;
+            goto freeMem;
         }
         else
         {
             clear();
             printf("Please choose a choice from menu !\n");
-            free(exitTokenLine);
-            free(runApplicationToken);
-            free(createMatrixTokenLine);
-            free(directionTokenLine);
-            free(stepNumberTokenLine);
-            continue;
+            goto freeMem;
         }
+    freeMem:
+        free(exitTokenLine);
+        free(runApplicationTokenLine);
+        free(createMatrixTokenLine);
+        free(directionTokenLine);
+        free(stepNumberTokenLine);
     }
+    free(matrix);
 }
